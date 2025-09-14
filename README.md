@@ -1,8 +1,23 @@
 # AI-Powered Automated Merchandising Agent for E-Commerce
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ai-merchandising-agent.streamlit.app/)
+
 ### Case Study for the AI Agent Automation Engineer Role at SkinSeoul
 
 This repository contains the solution for the case study challenge presented by **SkinSeoul**. The project's objective is to design a fully-automated merchandising agent that dynamically ranks and curates products on an e-commerce website to drive key business metrics.
+
+---
+
+## 🚀 Live Demo
+
+A functional prototype of the scoring and ranking engine has been built using Streamlit to provide an interactive demonstration of the agent's logic.
+
+**[➡️ Launch the AI Merchandising Agent Prototype](https://ai-merchandising-agent.streamlit.app/)**
+
+The prototype allows you to:
+-   View the mock product dataset.
+-   See the calculated scores for each product based on the defined algorithm.
+-   Observe the final ranked list of "Best Sellers" that would be fed to the website's frontend.
 
 ---
 
@@ -52,13 +67,14 @@ Once scores are calculated, the agent ranks the products in descending order and
 The entire workflow is designed for automation, from data input to frontend rendering. A crucial component is the **Manual Override Layer**, which allows the business team to manually pin specific products to the top of the list for strategic promotions or campaigns, providing a necessary balance between automation and business control.
 
 ![Process Flow Map](flow_map.png)
-> **Note**: For the image above to display correctly, please ensure you have created an `assets` folder in this repository and placed an image file named `flow-diagram.png` inside it.
+> **Note**: For the image above to display correctly, place your image file `flow_map.png` inside an `assets` folder in this repository.
 
 ---
 
 ## 🛠️ Tools, Technologies & Assumptions
 
--   **Data Analysis & Simulation:** Python (with Pandas & Jupyter Notebook) was used to simulate the scoring and filtering logic on the mock dataset.
+-   **Prototyping:** Streamlit
+-   **Data Analysis & Simulation:** Python (with Pandas & Jupyter Notebook)
 -   **Process Visualization:** The workflow map was designed using Lucidchart.
 -   **Data Handling:** The mock data was processed using Google Sheets/Excel.
 -   **Automation Assumption:** The system is designed to be triggered by a CRON script or an API call from an orchestration tool (e.g., n8n, Airflow).
@@ -69,7 +85,8 @@ The entire workflow is designed for automation, from data input to frontend rend
 
 This repository is organized as follows:
 
--   `SkinSeoul_Case_Study.pdf`: The detailed 2-page PDF document outlining the project rationale, system design, and scoring logic.
+-   `app.py`: The Python script for the interactive Streamlit prototype.
+-   `SkinSeoul_Case_Study.pdf`: The detailed 2-page PDF document.
 -   `README.md`: This file, providing an overview of the project.
 
 ---
