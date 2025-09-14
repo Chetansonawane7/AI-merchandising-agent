@@ -1,28 +1,67 @@
 import pandas as pd
+import numpy as np
+from datetime import datetime, timedelta
 
-# In a real-world application, this would be a connection to a live database.
-# For this project, we are mocking the data here.
+# Load the provided CSV dataset
+file_path = './Mock_Skincare_Dataset - Data.csv'
+products_df = pd.read_csv(file_path)
 
-data = {
-    'product_id': [101, 102, 103, 104, 105, 106, 107, 108, 109, 110],
-    'product_name': [
-        'Hydrating Hyaluronic Acid Serum', 'Glow-Up Vitamin C Moisturizer',
-        'Daily Mineral Sunscreen SPF 50', 'Clarifying BHA Toner',
-        'Soothing Centella Cream', 'Radiant Glycolic Acid Peel',
-        'Overnight Retinol Treatment', 'Deep Cleanse Oil Cleanser',
-        'Peptide Firming Eye Cream', 'Calming Green Tea Mask'
-    ],
-    'category': [
-        'Serums', 'Moisturizers', 'Sunscreens', 'Toners', 'Moisturizers',
-        'Serums', 'Serums', 'Cleansers', 'Eye Creams', 'Masks'
-    ],
-    'price': [25.00, 35.00, 28.00, 22.00, 32.00, 45.00, 55.00, 24.00, 40.00, 29.00],
-    'stock_quantity': [150, 80, 200, 120, 50, 75, 40, 180, 90, 110],
-    'sales_count_last_30_days': [500, 350, 600, 250, 150, 200, 180, 450, 120, 220],
-    'avg_rating': [4.8, 4.6, 4.9, 4.5, 4.7, 4.8, 4.4, 4.9, 4.6, 4.8],
-    'view_count_last_30_days': [5000, 4000, 7000, 3000, 2500, 3500, 3200, 6000, 2000, 4500],
-    'is_new_arrival': [True, False, False, False, True, False, False, True, False, False],
-    'on_sale': [False, True, False, False, False, True, False, False, True, False]
-}
+# Assign unique product IDs
+products_df['product_id'] = range(1, len(products_df) + 1)
 
-products_df = pd.DataFrame(data)
+# Map product name to inferred category
+def infer_category(product_name):
+    name = product_name.lower()
+    if 'serum' in name:
+        return 'Serums'
+    elif 'moisturizer' in name:
+        return 'Moisturizers'
+    elif 'mask' in name:
+        return 'Masks'
+    elif 'cleanser' in name:
+        return 'Cleansers'
+    elif 'toner' in name:
+        return 'Toners'
+    elif 'eye' in name:
+        return 'Eye Creams'
+    elif 'peel' in name:
+        return 'Peels'
+    else:
+        return 'General Skincare'
+
+# Rename columns first
+products_df.rename(columns={
+    'Product Name': 'product_name',
+    'Brand': 'brand',
+    'Price (USD)': 'price'
+}, inplace=True)
+
+products_df['category'] = products_df['product_name'].apply(infer_category)
+
+# Populate other required columns
+products_df['stock_quantity'] = products_df['Units in Stock']
+products_df['sales_count_last_30_days'] = products_df['Volume Sold Last Month']
+products_df['view_count_last_30_days'] = products_df['Views Last Month']
+products_df['avg_rating'] = np.random.uniform(3.5, 5.0, len(products_df))  # Simulated ratings
+products_df['is_new_arrival'] = np.random.choice([True, False], len(products_df), p=[0.1, 0.9])
+products_df['on_sale'] = np.random.choice([True, False], len(products_df), p=[0.2, 0.8])
+
+# Generate simulated product launch dates
+start_date = datetime(2023, 1, 1)
+products_df['launch_date'] = [start_date + timedelta(days=np.random.randint(0, 600)) for _ in range(len(products_df))]
+products_df['days_since_launch'] = (datetime.now() - pd.to_datetime(products_df['launch_date'])).dt.days
+
+# Select final relevant columns
+products_df = products_df[[
+    'product_id',
+    'product_name',
+    'category',
+    'price',
+    'stock_quantity',
+    'sales_count_last_30_days',
+    'avg_rating',
+    'view_count_last_30_days',
+    'is_new_arrival',
+    'on_sale',
+    'days_since_launch'
+]]
